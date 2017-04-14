@@ -94,7 +94,7 @@ class feed (tornado.web.RequestHandler):
             try:
                 response = drak.http_client.fetch(request)
                 # print response.body
-                resp_id = int(response.body)
+                resp_id = response.body
                 RespNewTask["TaskID"] = resp_id
 
             except tornado.httpclient.HTTPError as e:
@@ -108,10 +108,11 @@ class feed (tornado.web.RequestHandler):
                 print "Error: " + str(e)
                 # RespStatus['Error'] = str(e)
 
+            sample_file.close()
+
         else:
             RespNewTask['Error'] = "No such sample"
 
-        sample_file.close()
         RespNewTask_json = json.dumps(RespNewTask)
         self.write(RespNewTask_json)
 
@@ -244,5 +245,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-
 
